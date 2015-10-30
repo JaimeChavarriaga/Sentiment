@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang='es'>
 <head>
-<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1' />
-<title>Análisis de Información en Big Data - Taller 3</title>
-<!-- D3 <script src='http://d3js.org/d3.v3.min.js'></script>-->
-<!-- Bootstrap -->
-<link rel='stylesheet'
-	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-<link
-	href="http://getbootstrap.com/examples/justified-nav/justified-nav.css"
-	rel="stylesheet">
-<!-- Font Awesome 
-<link rel'='stylesheet'
-	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>-->
-<!-- Estilos personalizados -->
-<link rel='stylesheet' href='style.css'>
-<link rel='stylesheet' href='tasks.css'>
-<!-- JQuery, Bootstrap -->
-<script
-	src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
-<script
-	src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+	<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1' />
+	<title>Análisis de Información en Big Data - Taller 3</title>
+
+	<!-- D3 -->
+	<!-- <script src='http://d3js.org/d3.v3.min.js'></script> -->
+
+	<!-- Bootstrap -->
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='http://getbootstrap.com/examples/justified-nav/justified-nav.css'>
+
+	<!-- Font Awesome -->
+	<!-- <link rel'='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'> -->
+
+	<!-- Estilos personalizados -->
+	<link rel='stylesheet' href='style.css'>
+	<link rel='stylesheet' href='tasks.css'>
+
+	<!-- JQuery, Bootstrap -->
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+	
 	<!-- canvas.js -->
-<script src="canvasjs.min.js"></script>
-<!-- Scripts personalizados -->
-<script src='script.js'></script>
+	<script src="canvasjs.min.js"></script>
+	
+	<!-- Scripts personalizados -->
+	<script src='script.js'></script>
 
 <script>
+
+	// carga datos del servidor
 	function loadXMLDoc() {
-		var xmlhttp;
-		xmlhttp = new XMLHttpRequest();
+		
+		/* 
 		
 		var nombre = document.getElementById('sel2');
+		
+		var xmlhttp;
+		xmlhttp = new XMLHttpRequest();
 
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -47,7 +55,18 @@
 		xmlhttp.setRequestHeader('Content-type',
 				"application/x-www-form-urlencoded");
 		xmlhttp.send("name=" + encodeURI(nombre.value));
-	}
+		*/
+		
+		var nombre = $('#sel2').val();
+		$.post( 
+			"MainServlet",
+			{ name : encodeURI( nombre ) },
+			function( data ) {				
+				var out = "OK";
+				graficar("Seguidores " + nombre, data);
+		});
+
+	}	
 </script>
 
 </head>
