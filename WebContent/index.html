@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1' />
+<title>Análisis de Información en Big Data - Taller 3</title>
+<!-- D3 <script src='http://d3js.org/d3.v3.min.js'></script>-->
+<!-- Bootstrap -->
+<link rel='stylesheet'
+	href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<link
+	href="http://getbootstrap.com/examples/justified-nav/justified-nav.css"
+	rel="stylesheet">
+<!-- Font Awesome 
+<link rel'='stylesheet'
+	href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>-->
+<!-- Estilos personalizados -->
+<link rel='stylesheet' href='style.css'>
+<link rel='stylesheet' href='tasks.css'>
+<!-- JQuery, Bootstrap -->
+<script
+	src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+<script
+	src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+	<!-- canvas.js -->
+<script src="canvasjs.min.js"></script>
+<!-- Scripts personalizados -->
+<script src='script.js'></script>
+
+<script>
+	function loadXMLDoc() {
+		var xmlhttp;
+		xmlhttp = new XMLHttpRequest();
+		
+		var nombre = document.getElementById('sel2');
+
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				var data = JSON.parse(xmlhttp.responseText);
+				var out = "OK";
+				//document.getElementById('xx').innerHTML = data;
+				graficar("Seguidores " + nombre.value, data);
+			}
+		}
+		
+
+		xmlhttp.open("POST", "MainServlet", true);
+		xmlhttp.setRequestHeader('Content-type',
+				"application/x-www-form-urlencoded");
+		xmlhttp.send("name=" + encodeURI(nombre.value));
+	}
+</script>
+
+</head>
+</head>
+
+<!-- =============== -->
+<!-- =============== -->
+<!-- =============== -->
+<!-- =============== -->
+<!-- Inicio del Body -->
+<!-- =============== -->
+<!-- =============== -->
+<!-- =============== -->
+<!-- =============== -->
+
+<body id='myPage' data-spy='scroll' data-target='.navbar'
+	data-offset='60'>
+
+	<!-- ========================== -->
+	<!-- Inicio Barra de navegacion -->
+	<!-- ========================== -->
+
+	<!-- Inicio Div form-group <form method='GET' action='MainServlet'> -->
+	<nav class='navbar navbar-default navbar-fixed-top'>
+		<div class='container'>
+			<div class='navbar-header'>
+				<button type='button' class='navbar-toggle' data-toggle='collapse'
+					data-target='#myNavbar'>
+					<span class='icon-bar'></span> <span class='icon-bar'></span> <span
+						class='icon-bar'></span>
+				</button>
+				<!-- <a class='navbar-brand' href='#myPage'>Logo</a> -->
+			</div>
+			<div class='collapse navbar-collapse' id='myNavbar'>
+				<ul class='nav navbar-nav navbar-right'>
+					<li><a href='#inicio'>Inicio</a></li>
+					<li><a href='#consultas'>Consultas</a></li>
+					<li><a href='#polaridad'>Análisis de polaridad</a></li>
+					<li><a href='#tagCloud'>TagCloud</a></li>
+					<li><a href='#seguidores'>Seguidores</a></li>
+					<li><a href='#contact'>Realizado por</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- ======================= -->
+	<!-- Fin Barra de navegacion -->
+	<!-- ======================= -->
+
+	<!-- ========================== -->
+	<!-- Inicio Encabezado -->
+	<!-- ========================== -->
+
+	<div id='inicio' class='jumbotron text-center'>
+		<!-- Inicio Div jumbotron -->
+		<h1>Análisis Básico de Contenido</h1>
+	</div>
+	<!-- Fin Div jumbotron -->
+
+	<div class='container-fluid'>
+		<!-- Inicio Div container-fluid -->
+		<div class='col-sm-6' id='combo'>
+			<!-- Inicio Div columna 1 -->
+
+			<table class='table'>
+				<thead>
+					<tr class='something'>
+						<th class='col-md-3'>Ciudad</th>
+						<th class='col-md-3'>Candidato</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					<tr class='something'>
+						<td class='col-md-3'><select class='form-control'
+							onchange='seleccion1( );' id='sel1' name='selciudad'>
+								<option value='0'>Bogotá</option>
+								<option value='1'>Medellín</option>
+								<option value='2'>Cali</option>
+						</select></td>
+
+						<td class='col-md-3'><select class='form-control'
+							onchange='seleccion2( );' id='sel2' name='selcandidato'>
+								<option value='0'>Enrique Peñalosa</option>
+								<option value='1'>Rafael Pardo</option>
+								<option value='2'>Clara López</option>
+								<option value='3'>Francisco Santos</option>
+								<option value='4'>Daniel Raisbeck</option>
+								<option value='5'>Alex Vernot</option>
+						</select></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<!-- Fin Div columna 1-->
+
+		<div id='xx' class='col-sm-3'> <!-- Inicio Div columna 2 -->
+
+		</div>
+		<!-- Fin Div columna 2-->
+
+		<div class='col-sm-3'> <!-- Inicio Div columna 3 -->
+			<br>
+			<button class='btn btn-default btn-lg' name='ciudad'
+				onclick='loadXMLDoc();''>Reemplazar</button>
+		</div>
+		<!-- Fin Div columna 3-->
+
+	</div>
+	<!-- Fin Div container-fluid -->
+
+	<!-- ===================================== -->
+	<!-- Inicio del Consultas sobre el dataset -->
+	<!-- ===================================== -->
+
+	<!-- Consultas sobre el dataset -->
+	<div id='consultas' class='container-fluid text-center bg-grey'>
+		<!-- Inicio Div container-fluid -->
+		<br>
+		<br>
+		<h2>Consultas sobre el dataset</h2>
+		<br>
+		<div class='row'>
+			<!-- Inicio Div row -->
+		</div>
+		<!-- Fin Div row -->
+	</div>
+	<!-- Fin Div container-fluid -->
+
+	<!-- ================================== -->
+	<!-- Fin del Consultas sobre el dataset -->
+	<!-- ================================== -->
+
+	<!-- ================================ -->
+	<!-- Inicio del Análisis de polaridad -->
+	<!-- ================================ -->
+
+	<div id='resultado' class='container-fluid text-center bg-grey'>
+		<!-- Inicio Div container-fluid -->
+		<div class='row'>
+			<!-- Inicio Div row -->
+		</div>
+	</div>
+	<!-- Fin Div container-fluid -->
+
+	<!-- Análisis de polaridad -->
+	<div id='polaridad' class='container-fluid text-center fondoBlanco'>
+		<!-- Inicio Div container-fluid -->
+		<br>
+		<br>
+		<h2>Análisis de polaridad</h2>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<div class='row'>
+			<!-- Inicio Div row -->
+
+			<!-- Fila de encabezados - Íconos positivo, neutro y negativo -->
+			<table class='table table-bordered'>
+				<thead>
+					<tr>
+						<th class='text-center'><span
+							class='glyphicon glyphicon-plus-sign logo-small'></span></th>
+						<th class='text-center'><span
+							class='glyphicon glyphicon-question-sign logo-small'></span></th>
+						<th class='text-center'><span
+							class='glyphicon glyphicon-minus-sign logo-small'></span></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<!-- Fila 1 -->
+					<tr>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoPositivo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNeutro' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNegativo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Fila 2 -->
+					<tr>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoPositivo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNeutro' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNegativo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Fila 3 -->
+					<tr>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoPositivo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNeutro' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNegativo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Fila 4 -->
+					<tr>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoPositivo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNeutro' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNegativo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Fila 5 -->
+					<tr>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoPositivo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNeutro' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+						<td>
+							<div class='form-group'>
+								<textarea class='form-control logoNegativo' rows='3' cols='35'>
+		When building a form, use checkbox if you want the user to select any number of options from a list. Use radio if you want to limit the user to just one selection.
+		</textarea>
+								<label for='name'>26-10-2015 16:45:35</label>
+							</div>
+						</td>
+					</tr>
+			</table>
+
+		</div>
+		<!-- Fin Div row -->
+	</div>
+	<!-- Fin Div container-fluid -->
+
+	<!-- ============================= -->
+	<!-- Fin del Análisis de polaridad -->
+	<!-- ============================= -->
+
+	<!-- ================================== -->
+	<!-- Inicio de la gráfica de seguidores -->
+	<!-- ================================== -->
+
+	<!-- Consultas sobre el dataset -->
+	<div id='seguidores' class='container-fluid text-center fondoBlanco' style='height: 400px; width: 50%;'>
+		<!-- Inicio Div container-fluid -->
+		<br>
+		<br>
+		<h2>Evolución de seguidores</h2>
+		<br><br>
+		<div id='seguidores2' class='container fondoBlanco' style='height: 400px; width: 100%;'>
+			<!-- Inicio Div row -->
+			
+			</div>
+			<!-- Fin Div container -->
+			
+			<!-- Fin Div row -->
+		</div>
+		<!-- Fin Div container-fluid -->
+
+		<!-- =============================== -->
+		<!-- Fin de la gráfica de seguidores -->
+		<!-- =============================== -->
+
+		<!-- ============================= -->
+		<!-- Inicio del TagCloud -->
+		<!-- ============================= -->
+
+		<!-- Consultas sobre el dataset -->
+		<div id='tagCloud' class='container-fluid text-center fondoBlanco'>
+			<!-- Inicio Div container-fluid -->
+			<br>
+			<br>
+			<h2>TagCloud</h2>
+			<br>
+			<div class='row'>
+				<!-- Inicio Div row -->
+			</div>
+			<!-- Fin Div row -->
+		</div>
+		<!-- Fin Div container-fluid -->
+
+		<!-- ============================= -->
+		<!-- Fin del TagCoud -->
+		<!-- ============================= -->
+
+		<!-- ============================= -->
+		<!-- Inicio del GoogleMap -->
+		<!-- ============================= -->
+
+		<div id='googleMap' style='height: 640px; width: 100%;'></div>
+
+		<!-- Add Google Maps -->
+		<script
+			src="https://maps.googleapis.com/maps/api/js?sensor=false&region=CO"></script>
+		<script>
+			function initialize() {
+				var mapOptions = {
+					center : new google.maps.LatLng(4.6482837, -74.2478995),
+					zoom : 6,
+					scrollwheel : false,
+					draggable : false,
+					disableDefaultUI : true,
+					mapTypeId : google.maps.MapTypeId.ROADMAP
+				}
+
+				var map = new google.maps.Map(document
+						.getElementById('googleMap'), mapOptions);
+
+				var places = [ [ 'Armenia', 4.4913352, -75.7848242, 12 ],
+						[ 'Medellin', 6.2441988, -75.6512521, 12 ] ];
+
+				var contentString1 = '<div id="div_ejemplo">'
+						+ '<p>Este es un ejemplo 1 de <b>InfoWindow</b>, '
+						+ 'como puedes ver puedes agregar cualquier cosa, '
+						+ 'cualquier <em>HTML</em>.</p>'
+						+ '<p>Este InfoWindow tiene un ancho de 200px '
+						+ 'y automáticamente da los saltos de línea.</p>'
+						+ '<p>Para ver el tutorial <a href="http://www.google.com/">'
+						+ 'clickea aquí;</a>.</p>' + '</div>';
+
+				var infowindow1 = new google.maps.InfoWindow({
+					content : contentString1,
+					maxWidth : 200
+				});
+
+				var contentString2 = '<div id="div_ejemplo">'
+						+ '<p>Este es un ejemplo 2 de <b>InfoWindow</b>, '
+						+ 'como puedes ver puedes agregar cualquier cosa, '
+						+ 'cualquier <em>HTML</em>.</p>'
+						+ '<p>Este InfoWindow tiene un ancho de 200px '
+						+ 'y automáticamente da los saltos de línea.</p>'
+						+ '<p>Para ver el tutorial <a href="http://jafrancov.com/2010/09/info-window-gmaps-api-v3/">'
+						+ 'clickea aquí;</a>.</p>' + '</div>';
+
+				var infowindow2 = new google.maps.InfoWindow({
+					content : contentString2,
+					maxWidth : 200
+				});
+
+				var marcador1 = new google.maps.Marker({
+					position : new google.maps.LatLng(places[0][1],
+							places[0][2]),
+					map : map,
+					title : places[0][0]
+				});
+				var marcador2 = new google.maps.Marker({
+					position : new google.maps.LatLng(places[1][1],
+							places[1][2]),
+					map : map,
+					title : places[1][0]
+				});
+				// Para cambiar el icono, se agrega la propiedad icon:'pinkball.png'
+
+				google.maps.event.addListener(marcador1, 'click', function() {
+					infowindow1.open(map, marcador1);
+				});
+				google.maps.event.addListener(marcador2, 'click', function() {
+					infowindow2.open(map, marcador2);
+				});
+			}
+
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
+
+		<!-- ============================= -->
+		<!-- Fin del GoogleMap -->
+		<!-- ============================= -->
+
+		<!--</form>-->
+
+		<!-- Container (Contact Section) -->
+		<div id='contact' class='container-fluid bg-grey'>
+			<!-- Inicio Div container -->
+			<div class='row'>
+				<!-- Inicio Div row -->
+				<div class='col-md-4'>
+					<!-- Inicio Div col -->
+					<h2>
+						<b>Carlos Eduardo Gómez Montoya</b>
+					</h2>
+					<p>
+						<span class='glyphicon glyphicon-phone'></span> +57 3206990583
+					</p>
+					<p>
+						<span class='glyphicon glyphicon-envelope'></span>
+						ce.gomez10@uniandes.edu.co
+					</p>
+				</div>
+				<!-- Fin Div col -->
+
+				<div class='col-md-4'>
+					<!-- Inicio Div col -->
+					<h2>
+						<b>José David Alzate Ocampo</b>
+					</h2>
+					<p>
+						<span class='glyphicon glyphicon-phone'></span> +57 3006137613
+					</p>
+					<p>
+						<span class='glyphicon glyphicon-envelope'></span>
+						jd.alzate245@uniandes.edu.co
+					</p>
+				</div>
+				<!-- Fin Div col -->
+
+				<div class='col-md-4'>
+					<!-- Inicio Div col -->
+					<img src='Uniandes.png' style='width: 180px;'>
+					<p>Análisis de Información en BigData</p>
+					<p>Dapartamento de Ingeniería de Sistemas y Computación</p>
+					<p>Noviembre de 2015</p>
+				</div>
+				<!-- Fin Div col -->
+
+			</div>
+			<!-- Fin Div row -->
+		</div>
+		<!-- Inicio Div container -->
+
+		<footer class='container-fluid text-center logo-small'>
+			<a href='#inicio' title='To Top'> <span
+				class='glyphicon glyphicon-chevron-up'></span>
+			</a>
+		</footer>
+
+		<script>
+			$(document).ready(
+					function() {
+						// Add smooth scrolling to all links in navbar + footer link
+						$(".navbar a, footer a[href='#inicio']").on('click',
+								function(event) {
+
+									// Prevent default anchor click behavior
+									event.preventDefault();
+
+									// Store hash
+									var hash = this.hash;
+
+									// Using jQuery's animate() method to add smooth page scroll
+									// The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+									$('html, body').animate({
+										scrollTop : $(hash).offset().top
+									}, 900, function() {
+
+										// Add hash (#) to URL when done scrolling (default click behavior)
+										window.location.hash = hash;
+									});
+								});
+					})
+		</script>
+</body>
+</html>
+
+
+

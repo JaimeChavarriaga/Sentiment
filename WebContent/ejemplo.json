@@ -1,0 +1,18 @@
+[
+	{
+  		"nombre" : "uno",
+  		"valor"  : 1
+  	},
+	{
+  		"nombre" : "dos",
+  		"valor"  : 2
+  	},
+	{
+  		"nombre" : "tres",
+  		"valor"  : 3
+  	},
+	{
+  		"nombre" : "cuatro",
+  		"valor"  : 4
+  	}
+]

@@ -1,0 +1,33 @@
+<html>
+
+<body>
+
+
+<script>
+
+var datos =  [];
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+	
+	if ( xhttp.readyState ==4 ) {
+	
+		document.getElementById("response").innerHTML = xhttp.response;
+		datos = JSON.parse( xhttp.response );
+		
+		for ( var i = 0; i < datos.length; i++ ) {
+			console.log( datos[i].nombre , datos[i].valor );			
+		}
+		
+	}
+}
+xhttp.open("GET", "datos/ejemplo");
+xhttp.send();
+
+</script>
+
+<div id="response">
+</div>
+
+</body>
+</html>
